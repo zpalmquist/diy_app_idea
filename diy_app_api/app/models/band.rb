@@ -1,4 +1,5 @@
 class Band < ApplicationRecord
+  # This is a new ActiveStorage thing
   has_one_attached :profile_pic
 
   has_many :user_bands
@@ -8,4 +9,6 @@ class Band < ApplicationRecord
   has_many :events, through: :band_events
 
   belongs_to :locality
+
+  validates :name, presence: true
 end
