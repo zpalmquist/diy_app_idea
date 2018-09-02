@@ -1,22 +1,24 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # include ActiveModel::Validations
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable
 
+ validates :username, presence: true, uniqueness: { case_sensitive: false }
+ validates_uniqueness_of :email
+
   has_one_attached :profile_pic
 
-  # has_many :user_bands
-  # has_many :bands, through: :user_bands
-
-  has_and_belongs_to_many :bands
+  has_many :user_bands
+  has_many :bands, through: :user_bands
 
   has_many :user_venues
   has_many :venues, through: :user_venues
+  has_secure_password
 
-  validates_presence_of :username
-  validates_uniqueness_of :username
+  enum role: %w(default admin)
 
   def self.sign_in_from_omniauth(auth)
     ## Code from tutorial, want to customize more

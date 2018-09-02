@@ -1,5 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Venue, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Venue, type: :model do
+  it {should belong_to :locality}
+  it {should have_many :users}
+  it {should have_many :events}
 end
