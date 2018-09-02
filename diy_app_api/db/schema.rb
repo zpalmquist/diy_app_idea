@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_02_013434) do
+ActiveRecord::Schema.define(version: 2018_09_02_043111) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,13 @@ ActiveRecord::Schema.define(version: 2018_09_02_013434) do
     t.index ["country_id"], name: "index_administrative_areas_on_country_id"
   end
 
+  create_table "band_events", force: :cascade do |t|
+    t.bigint "band_id"
+    t.bigint "event_id"
+    t.index ["band_id"], name: "index_band_events_on_band_id"
+    t.index ["event_id"], name: "index_band_events_on_event_id"
+  end
+
   create_table "band_ratings", force: :cascade do |t|
     t.bigint "rating_id"
     t.bigint "band_id"
@@ -59,6 +66,17 @@ ActiveRecord::Schema.define(version: 2018_09_02_013434) do
 
   create_table "countries", force: :cascade do |t|
     t.string "name"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer "venue_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "title"
   end
 
   create_table "localities", force: :cascade do |t|
@@ -133,6 +151,15 @@ ActiveRecord::Schema.define(version: 2018_09_02_013434) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  create_table "venue_events", force: :cascade do |t|
+    t.bigint "venue_id"
+    t.bigint "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_venue_events_on_event_id"
+    t.index ["venue_id"], name: "index_venue_events_on_venue_id"
+  end
+
   create_table "venue_ratings", force: :cascade do |t|
     t.bigint "rating_id"
     t.datetime "created_at", null: false
@@ -149,6 +176,8 @@ ActiveRecord::Schema.define(version: 2018_09_02_013434) do
   end
 
   add_foreign_key "administrative_areas", "countries"
+  add_foreign_key "band_events", "bands"
+  add_foreign_key "band_events", "events"
   add_foreign_key "band_ratings", "bands"
   add_foreign_key "band_ratings", "ratings"
   add_foreign_key "localities", "administrative_areas"
@@ -158,6 +187,8 @@ ActiveRecord::Schema.define(version: 2018_09_02_013434) do
   add_foreign_key "user_ratings", "users"
   add_foreign_key "user_venues", "users"
   add_foreign_key "user_venues", "venues"
+  add_foreign_key "venue_events", "events"
+  add_foreign_key "venue_events", "venues"
   add_foreign_key "venue_ratings", "ratings"
   add_foreign_key "venue_ratings", "venues"
   add_foreign_key "venues", "localities"

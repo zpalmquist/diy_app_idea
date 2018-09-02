@@ -7,16 +7,20 @@ class User < ApplicationRecord
 
   has_one_attached :profile_pic
 
-  # has_many :user_bands
-  # has_many :bands, through: :user_bands
+  has_many :user_bands
+  has_many :bands, through: :user_bands
 
   has_and_belongs_to_many :bands
 
   has_many :user_venues
   has_many :venues, through: :user_venues
 
-  validates_presence_of :username
-  validates_uniqueness_of :username
+  validates :username, uniqueness: { case_sensitive: false }
+  validates_uniqueness_of :username, :email
+  include ActiveModel::Validations
+  has_secure_password
+
+  enum role: %w(default admin)
 
   def self.sign_in_from_omniauth(auth)
     ## Code from tutorial, want to customize more
