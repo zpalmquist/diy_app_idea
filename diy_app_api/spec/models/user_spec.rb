@@ -1,5 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe User, type: :model do
+  it {should have_many_and_belong_to_many :bands}
+  it {should validate_presence_of :username}
+  it {should validate_uniqueness_of :username}
+  it {should have_secure_password}
 end
