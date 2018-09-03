@@ -2,7 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   # include ActiveModel::Validations
-  devise :database_authenticatable, :registerable,
+ devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable
 
@@ -16,7 +16,7 @@ class User < ApplicationRecord
 
   has_many :user_venues
   has_many :venues, through: :user_venues
-  has_secure_password
+  # has_secure_password
 
   enum role: %w(default admin)
 
