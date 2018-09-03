@@ -14,7 +14,7 @@ describe Country, type: :model do
       expect(country).to_not be_valid
     end
     it "is not valid if country name already exists" do
-      duplicate_country = Country.new(name: country.name)
+      duplicate_country = Country.new(name: country.name.upcase)
       expect(duplicate_country).to_not be_valid
     end
   end
