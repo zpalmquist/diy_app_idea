@@ -5,8 +5,7 @@ require 'rails_helper'
 
 describe AdministrativeArea, type: :model do
   before(:example) do
-    # @state ||= create(:administrative_area)
-    # require "pry"; binding.pry
+    @state ||= create(:administrative_area)
   end
   context "relationships" do
     it {should have_many :localities}
@@ -16,9 +15,7 @@ describe AdministrativeArea, type: :model do
   end
   context "validations" do
     it "is valid with valid attributes" do
-      country = Country.new(name: "US")
-      state = AdministrativeArea.new(name: "Colorado", country: country)
-      expect(state).to be_valid
+      expect(@state).to be_valid
     end
     it "is not valid without a country" do
       state = AdministrativeArea.new(name: "CO", country: nil)
