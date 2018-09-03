@@ -13,3 +13,6 @@ Run in terminal:
 Run Tests:
 
   * rspec
+  * Recommended: add these lines in the .rspec file  
+  --format documentation
+  --color
