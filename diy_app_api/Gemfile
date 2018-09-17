@@ -39,6 +39,7 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'factory_bot_rails'
   gem 'devise'
+  gem 'doorkeeper', '~> 4.2.6'
   gem 'database_cleaner'
   #  gem 'figaro' assuming we will need this, not inserting yet
 end
