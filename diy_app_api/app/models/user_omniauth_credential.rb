@@ -1,4 +1,4 @@
-class UserOmniauthCredentials < ApplicationRecord
+class UserOmniauthCredential < ApplicationRecord
   belongs_to :user
 
   def update_or_create(attributes)

@@ -11,12 +11,14 @@ class User < ApplicationRecord
 
   has_one_attached :profile_pic
 
+  has_one :user_app_credential, dependent: :destroy
+  has_one :user_oauth_credential, dependent: :destroy
+
   has_many :user_bands
   has_many :bands, through: :user_bands
 
   has_many :user_venues
   has_many :venues, through: :user_venues
-  has_secure_password
 
   enum role: %w(default admin)
 
