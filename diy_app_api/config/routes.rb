@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
-  devise_for :users, path_names: {sign_in: "login", sign_out: "logout" },
-                     controllers: {omniauth_callbacks: "omniauth_callbacks"}
+  scope module: :api, defaults: { format: :json }, path: 'api' do
+    scope module: :v1, constraints: ApiConstraint.new(version: 1, default: true) do
+      devise_for :users, controllers: {
+        registrations: 'api/v1/users/registrations',
+      }, skip: [:sessions, :password]
+    end
+  end
 
 
 
