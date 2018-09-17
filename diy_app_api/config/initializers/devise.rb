@@ -260,9 +260,9 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
-  # config.omniauth :google, ENV["GOOGLE_KEY"], ENV["GOOGLE_SECRET"]
-  # config.omniauth :facebook, ENV["FACEBOOK_KEY"], ENV["GOOGLE_SECRET"]
-  # config.omniauth :soundcloud, ENV["SOUNDCLOUD_KEY"], ENV["SOUNDCLOUD_SECRET"]
+  config.omniauth :google_oauth2, ENV["GOOGLE_CLIENT_ID"], ENV["GOOGLE_SECRET_ID"]
+  config.omniauth :facebook, ENV["FACEBOOK_CLIENT_ID"], ENV["FACEBOOK_SECRET_ID"]
+  # config.omniauth :soundcloud, ENV["SOUNDCLOUD_CLIENT_ID"], ENV["SOUNDCLOUD_SECRET_ID"]
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
