@@ -4,7 +4,7 @@ class User < ApplicationRecord
   # include ActiveModel::Validations
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable
+         :omniauthable, omniauth_providers: [:google_oauth2, :facebook]
 
  validates :username, presence: true, uniqueness: { case_sensitive: false }
  validates_uniqueness_of :email
@@ -21,30 +21,24 @@ class User < ApplicationRecord
   enum role: %w(default admin)
 
   def self.sign_in_from_omniauth(auth)
-    ## Code from tutorial, want to customize more
-
-    # find_by(
-    #   provider: auth['provider'],
-    #   uid:      auth['uid']
-  #   ) || create_user_from_omniauth
+    find_by(
+      provider: auth['provider'],
+      uid:      auth['uid']
+    ) || create_user_from_omniauth
   end
 
   def self.create_user_from_omniauth(auth)
-    ## Code from tutorial, want to customize more
-
-    # create(
-    # provider: auth['provider'],
-    # uid: auth['uid'],
-    # name: auth['info']['name']
-    #   )
-
-    ## Code from another tutorial
-
-    # where(auth.slice(:provider, :uid)).first_or_create do |user|
-    #   user.provider = auth.provider
-    #   user.uid = auth.uid
-    #   user.username = auth.info.nickname
-    # end
+    # The user is first searched using the provider string and user id(uid)
+    # by the first_or_create method.
+    where(auth.slice(:provider, :uid)).first_or_create do |user|
+      user.user_omniauth_credentials.provider = auth.provider
+      user.user_omniauth_credentials.uid = auth.uid
+      # user.username = auth.info.nickname if auth.info.include?(:nickname)
+      ## Maybe on user.username setting.
+      ## Why? Because I'd really rather the user have to set up their own
+      ## username for the site
+      user.profile_pic = auth.image if auth.include?(:image)
+    end
   end
 
   def self.sign_in_from_app_credentials(auth)
@@ -54,11 +48,12 @@ class User < ApplicationRecord
   end
 
   def self.create_user_from_app_credentials(auth)
-  #  create(
-  #   email:    auth['email'],
-  #   username: auth['username'],
-  #   params
-  #  )
+   create(
+    user.email = auth['email'],
+    user.username = auth['username'],
+    user.user_app_credentials.encrypted_password = auth['password']
+    # params
+   )
   end
 
   def self.new_with_session(params, session)
@@ -73,7 +68,7 @@ class User < ApplicationRecord
   end
 
   def password_required?
-    # super && provider.blank?
+    super && provider.blank?
   end
 
   def update_with_password(params, *options)

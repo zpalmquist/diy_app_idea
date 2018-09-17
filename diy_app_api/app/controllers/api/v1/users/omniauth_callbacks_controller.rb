@@ -12,9 +12,9 @@ class Api::V1::Users::OmniauthCallbacksController < Devise::OmniauthCallbacksCon
   # https://github.com/plataformatec/devise#omniauth
 
   # GET|POST /resource/auth/twitter
-  # def passthru
-  #   super
-  # end
+  def passthru
+    all
+  end
 
   # GET|POST /users/auth/twitter/callback
   # def failure
