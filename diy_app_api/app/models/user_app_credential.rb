@@ -1,4 +1,5 @@
 class UserAppCredential < ApplicationRecord
   belongs_to :user
-  validates_presence_of :encrypted_password
+  has_secure_password
+  validates_presence_of :password
 end
