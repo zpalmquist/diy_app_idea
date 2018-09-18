@@ -1,10 +1,9 @@
-class Devise::OmniauthCallbacksController < ApplicationController
+class Api::V1::OmniauthCallbacksController < ApplicationController
   def all
     user = User.create_user_from_omniauth(request.env["omniauth.auth"])
     if user.persisted?
       sign_in_and_redirect user
     else
-      # session["devise.user.attributes"] = user.attributes
       failure
     end
   end

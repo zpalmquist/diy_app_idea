@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::V1::Users::SessionsController < Devise::SessionsController
+class Api::V1::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
@@ -9,14 +9,19 @@ class Api::V1::Users::SessionsController < Devise::SessionsController
   # end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
-
+  def create
+    respond_to do |format|
+      format.html { super }
+      format.json {
+        warden.authenticate!(:scope => user, :recall => "#{controller_path}#new")
+        render :status => 200, :json => { :success => "Success" }
+      }
+    end
+  end
   # DELETE /resource/sign_out
-  # def destroy
-  #   super
-  # end
+  def destroy
+    super
+  end
 
   # protected
 
