@@ -25,7 +25,7 @@ gem 'puma', '~> 3.7'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 gem 'bcrypt'
-
+gem 'jwt'
 ## Omniauth Gems Go Here
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2', '~> 0.4.1'
