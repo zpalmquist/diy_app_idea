@@ -2,9 +2,6 @@ Rails.application.routes.draw do
   scope module: :api, defaults: { format: :json }, path: 'api' do
     scope module: :v1 do
       devise_for :users do
-        # resources :sessions, only: [:create, :destroy]
-        get 'login' => 'sessions#new'
-        get 'logout' => 'sessions#destroy'
       end
     #   devise_for :users, controllers: {
     #     registrations: 'api/v1/users/registrations',
