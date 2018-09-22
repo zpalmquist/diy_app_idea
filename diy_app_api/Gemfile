@@ -25,11 +25,14 @@ gem 'puma', '~> 3.7'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 gem 'bcrypt'
-
+gem 'jwt'
 ## Omniauth Gems Go Here
 gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2', '~> 0.4.1'
 # gem '<ENTER GEM>'
-# gem '<ENTER GEM>'
+
+## Database sessions are facilitated by the activerecord-session_store gem
+gem 'activerecord-session_store', '~> 1.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -39,8 +42,9 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'factory_bot_rails'
   gem 'devise'
+  gem 'doorkeeper', '~> 4.2.6'
   gem 'database_cleaner'
-  #  gem 'figaro' assuming we will need this, not inserting yet
+  gem 'figaro'
 end
 
 group :development do
