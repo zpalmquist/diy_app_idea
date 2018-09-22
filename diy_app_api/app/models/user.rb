@@ -4,7 +4,7 @@ class User < ApplicationRecord
   # include ActiveModel::Validations
  devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable
+         :omniauthable, omniauth_providers: [:google_oauth2, :facebook]
 
  validates :username, presence: true, uniqueness: { case_sensitive: false }
  validates_uniqueness_of :email
@@ -12,76 +12,40 @@ class User < ApplicationRecord
   has_one_attached :profile_pic
 
   has_many :user_bands
-  has_many :bands, through: :user_bands
+  has_many :bands, through: :user_bands, dependent: :destroy
 
   has_many :user_venues
-  has_many :venues, through: :user_venues
-  # has_secure_password
+
+  has_many :venues, through: :user_venues, dependent: :destroy
+
 
   enum role: %w(default admin)
 
   def self.sign_in_from_omniauth(auth)
-    ## Code from tutorial, want to customize more
-
-    # find_by(
-    #   provider: auth['provider'],
-    #   uid:      auth['uid']
-  #   ) || create_user_from_omniauth
+    find_by(provider: auth['provider'], uid: auth['uid']) || create_user_from_omniauth(auth)
   end
 
+  # The user is first searched using the provider string and user id(uid)
+  # by the first_or_create method.
   def self.create_user_from_omniauth(auth)
-    ## Code from tutorial, want to customize more
-
-    # create(
-    # provider: auth['provider'],
-    # uid: auth['uid'],
-    # name: auth['info']['name']
-    #   )
-
-    ## Code from another tutorial
-
-    # where(auth.slice(:provider, :uid)).first_or_create do |user|
-    #   user.provider = auth.provider
-    #   user.uid = auth.uid
-    #   user.username = auth.info.nickname
-    # end
+    where(auth.slice(:provider, :uid)).first_or_create do |user|
+      user.user_omniauth_credentials.provider = auth.provider
+      user.user_omniauth_credentials.uid = auth.uid
+    end
   end
 
   def self.sign_in_from_app_credentials(auth)
-  #  find_by(
-  #    params
-  #  )
+   find_by(
+     username: auth['username'],
+     encrypted_password: auth['encrypted_password']
+   )
   end
 
   def self.create_user_from_app_credentials(auth)
-  #  create(
-  #   email:    auth['email'],
-  #   username: auth['username'],
-  #   params
-  #  )
+   create(
+    user.email = auth['email'],
+    user.username = auth['username'],
+    user.user_app_credentials.encrypted_password = auth['password']
+   )
   end
-
-  def self.new_with_session(params, session)
-    # if session["devise.user_attributes"]
-    #   new(session["devise.user_attributes"], without_protection: true) do |user|
-    #     user.attributes = params
-    #     user.valid?
-    #   end
-    #  else
-    #    super
-    # end
-  end
-
-  def password_required?
-    # super && provider.blank?
-  end
-
-  def update_with_password(params, *options)
-    # if encrypted_password.blank?
-    #   update_attributes(params, *options)
-    # else
-    #   super
-    # end
-  end
-
 end
