@@ -1,12 +1,10 @@
-# frozen_string_literal: true
-
-class Api::V1::RegistrationsController < ApplicationController
+class Api::RegistrationsController < ApplicationController
   before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  def new
-  end
+    def new
+    end
 
   # POST /resource
   # def create
