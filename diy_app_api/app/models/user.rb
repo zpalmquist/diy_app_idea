@@ -2,12 +2,12 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   # include ActiveModel::Validations
- devise :database_authenticatable, :registerable,
+ devise  :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [:google_oauth2, :facebook]
 
  validates :username, presence: true, uniqueness: { case_sensitive: false }
- validates_uniqueness_of :email
+ validates :email,    presence: true, uniqueness: { case_sensitive: false }
 
   has_one_attached :profile_pic
 
@@ -35,6 +35,7 @@ class User < ApplicationRecord
   end
 
   def self.sign_in_from_app_credentials(auth)
+   require "pry"; binding.pry
    find_by(
      username: auth['username'],
      encrypted_password: auth['encrypted_password']

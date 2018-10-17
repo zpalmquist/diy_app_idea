@@ -1,4 +1,4 @@
-class Api::V1::OmniauthCallbacksController < ApplicationController
+class Api::OmniauthCallbacksController < ApplicationController
   def all
     user = User.create_user_from_omniauth(request.env["omniauth.auth"])
     if user.persisted?
