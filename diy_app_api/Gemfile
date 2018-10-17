@@ -16,16 +16,17 @@ gem 'puma', '~> 3.7'
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
 # gem 'active_storage'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Use ActiveModel has_secure_password
+gem 'bcrypt'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
-gem 'bcrypt'
 gem 'jwt'
+gem 'rack-cors'
+
 ## Omniauth Gems Go Here
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2', '~> 0.4.1'
