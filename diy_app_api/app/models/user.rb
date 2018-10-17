@@ -6,8 +6,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [:google_oauth2, :facebook]
 
- validates :username, presence: true, uniqueness: { case_sensitive: false }
- validates :email,    presence: true, uniqueness: { case_sensitive: false }
+  validates :username, presence: true, uniqueness: { case_sensitive: false }
+  validates :email,    presence: true, uniqueness: { case_sensitive: false }
 
   has_one_attached :profile_pic
 
@@ -18,10 +18,9 @@ class User < ApplicationRecord
 
   has_many :venues, through: :user_venues, dependent: :destroy
 
-
   enum role: %w(default admin)
 
-  def self.sign_in_from_omniauth(auth)
+  def sign_in_from_omniauth(auth)
     find_by(provider: auth['provider'], uid: auth['uid']) || create_user_from_omniauth(auth)
   end
 
@@ -35,7 +34,6 @@ class User < ApplicationRecord
   end
 
   def self.sign_in_from_app_credentials(auth)
-   require "pry"; binding.pry
    find_by(
      username: auth['username'],
      encrypted_password: auth['encrypted_password']

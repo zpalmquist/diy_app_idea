@@ -15,17 +15,24 @@ class Api::Users::SessionsController < Devise::SessionsController
   # POST /resource/sign_in
   def create
     # self.resource = warden.authenticate!(auth_options)
-    @user = User.find_by(email: params[:email])
-    warden.set_user(@user, scope: :user)
-    set_flash_message(:notice, :signed_in) if is_flashing_format?
-    sign_in(resource_name, resource)
-    yield resource if block_given?
+    user = User.find_by(email: params[:email])
+    auth = request.env["omniauth.auth"]
+    if user && (user.valid_password?(params[:password]) || (user.sign_in_from_omniauth(auth) if !auth.nil?))
+    warden.set_user(user, scope: :user)
+    # set_flash_message(:notice, :signed_in) if is_flashing_format?
+    sign_in(user)
+    # sign_in(resource_name, resource)
+    # yield resource if block_given?
 
     # Issue JWT to JS Client
-    token = AuthToken.issue_token({ user_id: resource.id})
-    respond_with resource, location: after_sign_in_path_for(resource) do |format|
-      format.json { render json: { user: resource.email, token: token } }
+    token = AuthToken.issue_token({ user_id: user.id})
+      respond_with user, location: after_sign_in_path_for(user) do |format|
+        format.json { render json: { user: user.email, token: token } }
+      end
+    else
+      head :unauthorized
     end
+    # Should redirect to a profile page once authorized
   end
   # user = User.find_by(email: params[:email])
   # auth = request.env["omniauth.auth"]
