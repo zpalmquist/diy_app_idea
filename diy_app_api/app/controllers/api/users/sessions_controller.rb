@@ -21,12 +21,16 @@ class Api::Users::SessionsController < Devise::SessionsController
       sign_in(user)
       # Issue JWT to JS Client
       token = AuthToken.issue_token({ user_id: user.id})
+        # Insert JWT inside header
+        response.set_header('jwt-token', token)
+
         respond_with user, location: after_sign_in_path_for(user) do |format|
           format.json { render json: { user_email: user.email, username: user.username, token: token } }
         end
     else
       head :unauthorized
     end
+    require "pry"; binding.pry
     # Should redirect to a profile page once authorized
   end
   # user = User.find_by(email: params[:email])
@@ -42,6 +46,7 @@ class Api::Users::SessionsController < Devise::SessionsController
   # DELETE /resource/sign_out
   def destroy
     require "pry"; binding.pry
+    current_user.jwt_token
     super
   end
 
