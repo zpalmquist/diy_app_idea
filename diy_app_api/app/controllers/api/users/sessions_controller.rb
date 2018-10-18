@@ -9,7 +9,6 @@ class Api::Users::SessionsController < Devise::SessionsController
   respond_to :html, :json
 
   def new
-    require "pry"; binding.pry
   end
 
   # POST /resource/sign_in
@@ -18,17 +17,13 @@ class Api::Users::SessionsController < Devise::SessionsController
     user = User.find_by(email: params[:email])
     auth = request.env["omniauth.auth"]
     if user && (user.valid_password?(params[:password]) || (user.sign_in_from_omniauth(auth) if !auth.nil?))
-    warden.set_user(user, scope: :user)
-    # set_flash_message(:notice, :signed_in) if is_flashing_format?
-    sign_in(user)
-    # sign_in(resource_name, resource)
-    # yield resource if block_given?
-
-    # Issue JWT to JS Client
-    token = AuthToken.issue_token({ user_id: user.id})
-      respond_with user, location: after_sign_in_path_for(user) do |format|
-        format.json { render json: { user: user.email, token: token } }
-      end
+      warden.set_user(user, scope: :user)
+      sign_in(user)
+      # Issue JWT to JS Client
+      token = AuthToken.issue_token({ user_id: user.id})
+        respond_with user, location: after_sign_in_path_for(user) do |format|
+          format.json { render json: { user_email: user.email, username: user.username, token: token } }
+        end
     else
       head :unauthorized
     end
@@ -46,6 +41,7 @@ class Api::Users::SessionsController < Devise::SessionsController
   # end
   # DELETE /resource/sign_out
   def destroy
+    require "pry"; binding.pry
     super
   end
 
