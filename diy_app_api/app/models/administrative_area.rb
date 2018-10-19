@@ -6,7 +6,7 @@ class AdministrativeArea < ApplicationRecord
   has_many :localities
   validates :name, presence: true
 
-  def name
-    name.capitalize
-  end
+  # def name
+  #   name.capitalize
+  # end
 end
