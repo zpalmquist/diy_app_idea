@@ -10,18 +10,18 @@ require 'pry'
 
 
 Country.create!(name:"Turkey")
-AdministrativeArea.create!(name:"CO", country:Country.first)
-u = User.new(username:"tom",email:"tom@tom.com")
+AdministrativeArea.create!(name: "CO", country: Country.first)
+u = User.new(username: "tom", email: "tom@tom.com", encrypted_password: 'password')
 u.save!(:validate => false)
 Locality.create(administrative_area:AdministrativeArea.first)
-Band.create(genre:"slitterstunk", name:"muzzlepits",locality:Locality.first )
+Band.create(genre:"slitterstunk", name: "muzzlepits", locality: Locality.first )
 UserBand.create(user:User.first, band:Band.first)
 Venue.create(name:"clubadub", locality:Locality.first)
 UserVenue.create(user:User.first, venue:Venue.first)
-Event.create(start_date:"4/5/208", end_date:"4/5/2018", start_time:"4/5/2018", end_time:"4/5/3028", venue: Venue.first)
-User.create({
-  
-  })
+Event.create(start_date:"4/5/208", end_date:"4/6/2018", start_time:"6PM", end_time:"2AM", venue: Venue.first)
+
+
+## Eventually create larger datasets
 
 # CSV.foreach('app/data/seed_data/countries.csv', :headers => true) do |row|
 #   Country.create!(

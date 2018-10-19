@@ -5,5 +5,5 @@ class Rating < ApplicationRecord
   has_many :venue_ratings
   has_many :venues, through: :venue_ratings
 
-  
+
 end

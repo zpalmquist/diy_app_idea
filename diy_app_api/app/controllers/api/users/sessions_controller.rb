@@ -9,23 +9,28 @@ class Api::Users::SessionsController < Devise::SessionsController
   respond_to :html, :json
 
   def new
-    require "pry"; binding.pry
   end
 
   # POST /resource/sign_in
   def create
     # self.resource = warden.authenticate!(auth_options)
-    @user = User.find_by(email: params[:email])
-    warden.set_user(@user, scope: :user)
-    set_flash_message(:notice, :signed_in) if is_flashing_format?
-    sign_in(resource_name, resource)
-    yield resource if block_given?
+    user = User.find_by(email: params[:email])
+    auth = request.env["omniauth.auth"]
+    if user && (user.valid_password?(params[:password]) || (user.sign_in_from_omniauth(auth) if !auth.nil?))
+      warden.set_user(user, scope: :user)
+      sign_in(user)
+      # Issue JWT to JS Client
+      token = AuthToken.issue_token({ user_id: user.id})
+        # Insert JWT inside header
+        response.set_header('jwt-token', token)
 
-    # Issue JWT to JS Client
-    token = AuthToken.issue_token({ user_id: resource.id})
-    respond_with resource, location: after_sign_in_path_for(resource) do |format|
-      format.json { render json: { user: resource.email, token: token } }
+        respond_with user, location: after_sign_in_path_for(user) do |format|
+          format.json { render json: { user_email: user.email, username: user.username, token: token } }
+        end
+    else
+      head :unauthorized
     end
+    # Should redirect to a profile page once authorized
   end
   # user = User.find_by(email: params[:email])
   # auth = request.env["omniauth.auth"]
@@ -39,7 +44,7 @@ class Api::Users::SessionsController < Devise::SessionsController
   # end
   # DELETE /resource/sign_out
   def destroy
-    super
+    # Not sure how to handle JWT 'logout' yet
   end
 
   # protected

@@ -1,8 +1,10 @@
 require 'jwt'
 
+# Some logic to create token attributes and check against existing tokens
+
 module AuthToken
   def self.issue_token(payload)
-    payload['exp'] = 24.hours.from_now.to_i
+    payload['exp'] = 12.hours.from_now.to_i
     JWT.encode(payload, Rails.application.secrets.secret_key_base)
   end
 
