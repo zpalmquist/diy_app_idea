@@ -6,7 +6,9 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: [:google_oauth2, :facebook] # eventually add soundcloud
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }
-  validates :email,    presence: true, uniqueness: { case_sensitive: false }
+  validates :email,    presence: true, uniqueness: { case_sensitive: false }  
+
+  validate :password_or_uid
 
   has_one_attached :profile_pic
 
@@ -52,5 +54,11 @@ class User < ApplicationRecord
 
   def user_params
     params.require(:user).permit(:username, :email, :password)
+  end
+
+  def password_or_uid
+    unless password.blank? || uid.blank?
+      errors.add("Unauthorized, please try again")
+    end
   end
 end
