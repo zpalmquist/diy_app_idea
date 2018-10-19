@@ -1,10 +1,10 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  # include ActiveModel::Validations
+
  devise  :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [:google_oauth2, :facebook]
+         :omniauthable, omniauth_providers: [:google_oauth2, :facebook] # eventually add soundcloud
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :email,    presence: true, uniqueness: { case_sensitive: false }

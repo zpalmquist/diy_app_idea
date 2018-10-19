@@ -1,5 +1,7 @@
 require 'jwt'
 
+# Some logic to create token attributes and check against existing tokens
+
 module AuthToken
   def self.issue_token(payload)
     payload['exp'] = 12.hours.from_now.to_i

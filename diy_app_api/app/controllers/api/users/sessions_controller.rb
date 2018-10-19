@@ -30,7 +30,6 @@ class Api::Users::SessionsController < Devise::SessionsController
     else
       head :unauthorized
     end
-    require "pry"; binding.pry
     # Should redirect to a profile page once authorized
   end
   # user = User.find_by(email: params[:email])
@@ -45,9 +44,7 @@ class Api::Users::SessionsController < Devise::SessionsController
   # end
   # DELETE /resource/sign_out
   def destroy
-    require "pry"; binding.pry
-    current_user.jwt_token
-    super
+    # Not sure how to handle JWT 'logout' yet
   end
 
   # protected

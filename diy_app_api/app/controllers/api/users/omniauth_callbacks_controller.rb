@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-class Api::V1::Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+class Api::Users::OmniauthCallbacksController < ApplicationController
   # You should configure your model like this:
   # devise :omniauthable, omniauth_providers: [:twitter]
 
@@ -10,21 +8,20 @@ class Api::V1::Users::OmniauthCallbacksController < Devise::OmniauthCallbacksCon
 
   # More info at:
   # https://github.com/plataformatec/devise#omniauth
-
-  # GET|POST /resource/auth/twitter
-  def passthru
-    all
+  def all
+    user = User.create_user_from_omniauth(request.env["omniauth.auth"])
+    if user.persisted?
+      sign_in_and_redirect user
+    else
+      failure
+    end
   end
 
-  # GET|POST /users/auth/twitter/callback
-  # def failure
-  #   super
-  # end
+  def failure
+    redirect_to new_user_registration_url
+  end
 
-  # protected
-
-  # The path used when OmniAuth fails
-  # def after_omniauth_failure_path_for(scope)
-  #   super(scope)
-  # end
+  alias_method :facebook, :all
+  alias_method :google_omniauth2, :all
+  # alias_method :soundcloud, :all
 end

@@ -1,11 +1,9 @@
 Rails.application.routes.draw do
   scope module: :api, defaults: { format: :json }, path: 'api' do
-    # scope :v1 do
-      devise_for :users, controllers: {
-          sessions: 'api/users/sessions'
-        }
+    namespace :users do
+      devise_for :users
     end
-  # end
+  end
 
 
   ## Start routing for oauth callbacks
