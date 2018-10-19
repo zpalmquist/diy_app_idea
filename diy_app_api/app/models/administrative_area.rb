@@ -4,5 +4,9 @@
 class AdministrativeArea < ApplicationRecord
   belongs_to :country
   has_many :localities
-  validates :name, presence: true, uniqueness: {case_sensitive: false}
+  validates :name, presence: true
+
+  def name
+    name.capitalize
+  end
 end

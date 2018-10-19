@@ -27,9 +27,10 @@ class User < ApplicationRecord
   # The user is first searched using the provider string and user id(uid)
   # by the first_or_create method.
   def self.create_user_from_omniauth(auth)
-    where(auth.slice(:provider, :uid)).first_or_create do |user|
+    where(auth.slice(:provider, :uid, :email)).first_or_create do |user|
+      user.user_omniauth_credentials.email    = auth.email
       user.user_omniauth_credentials.provider = auth.provider
-      user.user_omniauth_credentials.uid = auth.uid
+      user.user_omniauth_credentials.uid      = auth.uid
     end
   end
 
