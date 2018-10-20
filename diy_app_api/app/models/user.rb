@@ -6,7 +6,9 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: [:google_oauth2, :facebook] # eventually add soundcloud
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }
-  validates :email,    presence: true, uniqueness: { case_sensitive: false }  
+  validates :email,    presence: true, uniqueness: { case_sensitive: false }
+  validates :password, presence: true, unless: ->(user){!user.uid.nil?}
+  validates :uid, presence: true, unless: ->(user){!user.password.nil?}
 
   validate :password_or_uid
 
