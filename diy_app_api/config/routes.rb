@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
   scope module: :api, defaults: { format: :json }, path: 'api' do
-    namespace :users do
-      devise_for :users
-    end
+    devise_for :users,
+      controllers: {
+          sessions: "api/users/sessions",
+          confirmations: "api/users/confirmations",
+          omniauth_callbacks: "api/users/omniauth_callbacks",
+          passwords: "api/users/passwords",
+          unlocks: "api/users/unlocks",
+          registrations: "api/users/registrations"
+       }
   end
-
-
   ## Start routing for oauth callbacks
   # get 'users/auth/:provider/callback', to: "sessions#create", as: "sign_in"
   # delete '/sign_out', to: "sessions#destroy", as: "sign_out"
