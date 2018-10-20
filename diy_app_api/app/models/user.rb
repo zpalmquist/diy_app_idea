@@ -7,10 +7,10 @@ class User < ApplicationRecord
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :email,    presence: true, uniqueness: { case_sensitive: false }
-  validates :password, presence: true, unless: ->(user){!user.uid.nil?}
-  validates :uid, presence: true, unless: ->(user){!user.password.nil?}
 
-  validate :password_or_uid
+  # Gives us the option for either uid or password
+  validates :password, presence: true, unless: ->(user){!user.uid.nil?}
+  validates :uid,      presence: true, unless: ->(user){!user.password.nil?}
 
   has_one_attached :profile_pic
 
@@ -56,11 +56,5 @@ class User < ApplicationRecord
 
   def user_params
     params.require(:user).permit(:username, :email, :password)
-  end
-
-  def password_or_uid
-    unless password.blank? || uid.blank?
-      errors.add("Unauthorized, please try again")
-    end
   end
 end
