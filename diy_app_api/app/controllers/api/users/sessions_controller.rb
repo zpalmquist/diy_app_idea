@@ -19,8 +19,10 @@ class Api::Users::SessionsController < Devise::SessionsController
     if user && (user.valid_password?(params[:password]) || (user.sign_in_from_omniauth(auth) if !auth.nil?))
       warden.set_user(user, scope: :user)
       sign_in(user)
+
       # Issue JWT to JS Client
       token = AuthToken.issue_token({ user_id: user.id})
+      
         # Insert JWT inside header
         response.set_header('jwt-token', token)
 
