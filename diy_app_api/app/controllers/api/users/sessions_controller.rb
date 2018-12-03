@@ -11,9 +11,7 @@ class Api::Users::SessionsController < Devise::SessionsController
   def new
   end
 
-  # POST /resource/sign_in
   def create
-    # self.resource = warden.authenticate!(auth_options)
     user = User.find_by(email: params[:email])
     auth = request.env["omniauth.auth"]
     if user && (user.valid_password?(params[:password]) || (user.sign_in_from_omniauth(auth) if !auth.nil?))
@@ -22,7 +20,7 @@ class Api::Users::SessionsController < Devise::SessionsController
 
       # Issue JWT to JS Client
       token = AuthToken.issue_token({ user_id: user.id})
-      
+
         # Insert JWT inside header
         response.set_header('jwt-token', token)
 
@@ -32,27 +30,11 @@ class Api::Users::SessionsController < Devise::SessionsController
     else
       head :unauthorized
     end
-    # Should redirect to a profile page once authorized
+    #TODO: Should redirect to a profile page once authorized
   end
-  # user = User.find_by(email: params[:email])
-  # auth = request.env["omniauth.auth"]
-  # session[:omniauth] = auth
-  #   if user && (user.valid_password?(params[:password]) || user.sign_in_from_omniauth(auth))
-  #     require "pry"; binding.pry
-  #     render json: user.as_json(only: [:id, :email, :username]), status: :created
-  #   else
-  #     head :unauthorized
-  #   end
-  # end
+
   # DELETE /resource/sign_out
   def destroy
     # Not sure how to handle JWT 'logout' yet
   end
-
-  # protected
-
-  # If you have extra params to permit, append them to the sanitizer.
-  # def configure_sign_in_params
-  #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
-  # end
 end
