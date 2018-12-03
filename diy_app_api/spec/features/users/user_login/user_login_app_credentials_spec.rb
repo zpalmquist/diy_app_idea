@@ -12,5 +12,11 @@ describe Api::Users::SessionsController, type: :request do
 
       expect(response.status).to eq 200
     end
+
+    it "user gets unauthorized status with wrong password" do
+      post "/api/users/sign_in", :params => { email: "#{user.email}", password: "this is totally wrong" }
+
+      expect(response.status).to eq 401
+    end
   end
 end
