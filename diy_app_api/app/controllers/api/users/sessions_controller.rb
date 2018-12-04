@@ -19,7 +19,7 @@ class Api::Users::SessionsController < Devise::SessionsController
       sign_in(user)
 
       # Issue JWT to JS Client
-      token = AuthToken.issue_token({ user_id: user.id})
+      token = AuthToken.issue_token({ user_id: user.id, username: user.username})
 
         # Insert JWT inside header
         response.set_header('jwt-token', token)
