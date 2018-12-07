@@ -1,13 +1,16 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-
  devise  :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [:google_oauth2, :facebook] # eventually add soundcloud
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }
   validates :email,    presence: true, uniqueness: { case_sensitive: false }
+
+  # Gives us the option for either uid or password
+  validates :password, presence: true, unless: ->(user){!user.uid.nil?}
+  validates :uid,      presence: true, unless: ->(user){!user.password.nil?}
 
   has_one_attached :profile_pic
 
@@ -21,7 +24,9 @@ class User < ApplicationRecord
   enum role: %w(default admin)
 
   def sign_in_from_omniauth(auth)
+    ; 
     find_by(provider: auth['provider'], uid: auth['uid']) || create_user_from_omniauth(auth)
+    ; 
   end
 
   # The user is first searched using the provider string and user id(uid)

@@ -1,3 +1,5 @@
+## Not currently in use. Would like to implement versioning.
+
 class ApiConstraint
   attr_reader :version
 

@@ -55,7 +55,15 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
+
+  # Include FactoryBot modules
   config.include FactoryBot::Syntax::Methods
+
+  # Include Devise helpers
+  config.include Devise::TestHelpers, type: :controller
+  # config.include Devise::TestHelpers, type: :model
+  # config.include Devise::IntegrationHelpers, type: :feature
+
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:

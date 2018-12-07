@@ -45,6 +45,7 @@ group :development, :test do
   gem 'devise'
   gem 'database_cleaner'
   gem 'figaro'
+  gem 'simplecov', require: false
 end
 
 group :development do
