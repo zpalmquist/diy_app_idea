@@ -1,7 +1,4 @@
 require 'rails_helper'
-# include Devise::ControllerHelpers
-# If so, you can explicitly tell Devise which mapping to use:
-# @request.env["devise.mapping"] = Devise.mappings[:user]
 
 describe Api::Users::SessionsController, type: :request do
   let(:user) { create :user }

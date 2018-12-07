@@ -1,4 +1,4 @@
-class Api::Users::OmniauthCallbacksController < ApplicationController
+class Api::Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # You should configure your model like this:
   # devise :omniauthable, omniauth_providers: [:twitter]
 
@@ -8,8 +8,14 @@ class Api::Users::OmniauthCallbacksController < ApplicationController
 
   # More info at:
   # https://github.com/plataformatec/devise#omniauth
+
+  # Disable CSRF protection
+  skip_before_action :verify_authenticity_token
+
+  ;
   def all
-    user = User.create_user_from_omniauth(request.env["omniauth.auth"])
+    ;
+    user = User.sign_in_from_omniauth(request.env["omniauth.auth"])
     if user.persisted?
       sign_in_and_redirect user
     else
@@ -22,6 +28,6 @@ class Api::Users::OmniauthCallbacksController < ApplicationController
   end
 
   alias_method :facebook, :all
-  alias_method :google_omniauth2, :all
+  alias_method :google_oauth2, :all
   # alias_method :soundcloud, :all
 end

@@ -24,7 +24,9 @@ class User < ApplicationRecord
   enum role: %w(default admin)
 
   def sign_in_from_omniauth(auth)
+    ; 
     find_by(provider: auth['provider'], uid: auth['uid']) || create_user_from_omniauth(auth)
+    ; 
   end
 
   # The user is first searched using the provider string and user id(uid)

@@ -9,9 +9,11 @@ class Api::Users::SessionsController < Devise::SessionsController
   respond_to :html, :json
 
   def new
+    ; 
   end
 
   def create
+    ; 
     user = User.find_by(email: params[:email])
     auth = request.env["omniauth.auth"]
     if user && (user.valid_password?(params[:password]) || (user.sign_in_from_omniauth(auth) if !auth.nil?))

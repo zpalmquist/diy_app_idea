@@ -35,7 +35,7 @@ Event.create(start_date:"4/5/208", end_date:"4/6/2018", start_time:"6PM", end_ti
 #     name: row["name"],
 #     country_id: row["country_id"]
 #     )
-#     binding.pry
+#     
 # end
 
 
