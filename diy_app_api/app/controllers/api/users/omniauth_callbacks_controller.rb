@@ -12,9 +12,8 @@ class Api::Users::OmniauthCallbacksController < Devise::OmniauthCallbacksControl
   # Disable CSRF protection
   skip_before_action :verify_authenticity_token
 
-  ;
+
   def all
-    ;
     user = User.sign_in_from_omniauth(request.env["omniauth.auth"])
     if user.persisted?
       sign_in_and_redirect user
