@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::Users::ConfirmationsController < Devise::ConfirmationsController
+class Api::V1::Users::ConfirmationsController < Devise::ConfirmationsController
   ## These are all comments coming from the Devise installation
 
   # GET /resource/confirmation/new

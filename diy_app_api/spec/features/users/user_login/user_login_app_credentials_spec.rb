@@ -1,17 +1,18 @@
 require 'rails_helper'
 
-describe Api::Users::SessionsController, type: :request do
+describe Api::V1::Users::SessionsController, type: :request do
+
   let(:user) { create :user }
     context "App Credentials" do
 
     it "user is rejected without any credentials" do
-      post "/api/users/sign_in", :params => nil
+      post "/api/v1/users/sign_in", :params => nil
 
-      expect(response.status).to eq 401
+      expect(response).to redirect_to(new_user_registration_path)
     end
 
     it "user can log in with password + username" do
-      post "/api/users/sign_in", :params => { email: "#{user.email}", password: "#{user.password}" }
+      post "/api/v1/users/sign_in", :params => { email: "#{user.email}", password: "#{user.password}" }
       token = JSON.parse(response.body)
 
       expect(response.status).to eq 200
@@ -20,9 +21,9 @@ describe Api::Users::SessionsController, type: :request do
     end
 
     it "user gets unauthorized status with wrong password" do
-      post "/api/users/sign_in", :params => { email: "#{user.email}", password: "this is totally wrong" }
+      post "/api/v1/users/sign_in", :params => { email: "#{user.email}", password: "this is totally wrong" }
 
-      expect(response.status).to eq 401
+      expect(response).to redirect_to(new_user_registration_path)
     end
   end
 end
