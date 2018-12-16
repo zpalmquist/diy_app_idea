@@ -11,6 +11,9 @@ Rails.application.routes.draw do
             unlocks: "api/v1/users/unlocks",
             registrations: "api/v1/users/registrations"
          }
+        controller :users do
+          get 'api/v1/users/dashboard' => "v1/users#dashboard"
+        end
     end
 end
   ## Start routing for oauth callbacks
