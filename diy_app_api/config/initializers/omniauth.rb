@@ -1,4 +1,7 @@
 ## This contains the omniauth config for future iterations of the application
+## May not need below code as config/devise.rb can also hold this logic and may work better for our enviro
+
+
 
 # OmniAuth.config.logger = Rails.logger
 # Rails.application.config.middleware.use OmniAuth::Builder do
