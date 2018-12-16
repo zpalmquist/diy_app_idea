@@ -1,5 +1,5 @@
 class Api::V1::Users::SessionsController < Devise::SessionsController
-  # Import encoding/decoding JWT logic
+  # Auth token module in the /lib directory
   require 'auth_token'
 
   # Disable CSRF protection
@@ -28,9 +28,8 @@ class Api::V1::Users::SessionsController < Devise::SessionsController
           format.json { render json: { user_email: user.email, username: user.username, token: token } }
         end
     else
-      redirect_to new_user_registration_path
+      # render :create
     end
-    #TODO: Should redirect to a profile page once authorized
   end
 
   # DELETE /resource/sign_out

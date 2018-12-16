@@ -10,6 +10,10 @@ class ApplicationController < ActionController::API
 
   protected
 
+  def after_sign_in_path_for(resource)
+    require "pry"; binding.pry
+  end
+
   def verify_jwt_token
     head :unauthorized if request.headers['Authorization'].nil? ||
       !AuthToken.valid?(request.headers['Authorization'].split(' ').last)

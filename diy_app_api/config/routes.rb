@@ -11,8 +11,8 @@ Rails.application.routes.draw do
             unlocks: "api/v1/users/unlocks",
             registrations: "api/v1/users/registrations"
          }
-        controller :users do
-          get 'api/v1/users/dashboard' => "v1/users#dashboard"
+        namespace :users do
+          get '/:id/dashboard' => "api/users/v1/dashboard#index", as: :root
         end
     end
 end
