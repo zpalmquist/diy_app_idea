@@ -1,26 +1,25 @@
 Rails.application.routes.draw do
+
+  root to: "api/v1/welcome_dashboard#index", defaults: { format: :json }
+  get '/api/v1/:username/dashboard', to: "api/v1/users/dashboard#index", as: :user_root
+
   scope module: :api, defaults: { format: :json }, path: 'api' do
-    scope :v1 do
-      root to: "v1/welcome_dashboard#index"
-      devise_for :users,
-        controllers: {
-            sessions: "api/v1/users/sessions",
-            confirmations: "api/v1/users/confirmations",
-            omniauth_callbacks: "api/v1/users/omniauth_callbacks",
-            passwords: "api/v1/users/passwords",
-            unlocks: "api/v1/users/unlocks",
-            registrations: "api/v1/users/registrations"
-         }
-        namespace :users do
-          get '/:id/dashboard' => "api/users/v1/dashboard#index", as: :root
-        end
+    scope module: :v1, path: 'v1' do
+       # Would like to find a better way to set the Prefix in routes on line 8
+       resources :welcome_dashboard, only: [:index]
+
+        devise_for :users,
+          controllers: {
+              sessions: "api/v1/users/sessions",
+              confirmations: "api/v1/users/confirmations",
+              omniauth_callbacks: "api/v1/users/omniauth_callbacks",
+              passwords: "api/v1/users/passwords",
+              unlocks: "api/v1/users/unlocks",
+              registrations: "api/v1/users/registrations"
+           }
+
     end
-end
-  ## Start routing for oauth callbacks
-  # get 'users/auth/:provider/callback', to: "sessions#create", as: "sign_in"
-  # delete '/sign_out', to: "sessions#destroy", as: "sign_out"
-  ## End routing for oauth callbacks, to "sessions#create"
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  end
 end
 
 ## Wanted to show routes in comments so there is a clear example to anyone viewing the repo what endpoints are currently supported
