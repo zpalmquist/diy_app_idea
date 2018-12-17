@@ -24,11 +24,9 @@ class Api::V1::Users::SessionsController < Devise::SessionsController
         # Insert JWT inside header
         response.set_header('jwt-token', token)
 
-        respond_with user, location: after_sign_in_path_for(user) do |format|
-          format.json { render json: { user_email: user.email, username: user.username, token: token } }
-        end
+        render json: { user_email: user.email, username: user.username, token: token }
     else
-      # render :create
+      render :new
     end
   end
 

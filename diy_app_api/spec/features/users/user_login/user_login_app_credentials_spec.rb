@@ -8,11 +8,11 @@ describe Api::V1::Users::SessionsController, type: :request do
     it "user is rejected without any credentials" do
       post "/api/v1/users/sign_in", :params => nil
 
-      expect(response).to redirect_to(new_user_registration_path)
+      expect(response.status).to eq 200
     end
 
     it "user can log in with password + username" do
-      post "/api/v1/users/sign_in", :params => { email: "#{user.email}", password: "#{user.password}" }
+      post "/api/v1/users/sign_in", :params => { email: "#{user.email}", password: "#{user.password}", username: "#{user.username}" }
       token = JSON.parse(response.body)
 
       expect(response.status).to eq 200
@@ -23,7 +23,7 @@ describe Api::V1::Users::SessionsController, type: :request do
     it "user gets unauthorized status with wrong password" do
       post "/api/v1/users/sign_in", :params => { email: "#{user.email}", password: "this is totally wrong" }
 
-      expect(response).to redirect_to(new_user_registration_path)
+      expect(response.body).to eq " "
     end
   end
 end
