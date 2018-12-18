@@ -1,9 +1,11 @@
 require 'rails_helper'
 
 describe Api::V1::WelcomeDashboardController, type: :request do
-  xit "url confirmation" do
-    get "/api/v1/"
+  it "url confirmation" do
+    get "/"
 
-    expect(response).to redirect_to root_path
+    content = JSON.parse(response.body)
+
+    expect content["message"].is_a?(String)    
   end
 end
