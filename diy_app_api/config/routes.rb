@@ -5,7 +5,6 @@ Rails.application.routes.draw do
 
   scope module: :api, defaults: { format: :json }, path: 'api' do
     scope module: :v1, path: 'v1' do
-       # Would like to find a better way to set the Prefix in routes on line 8
        resources :welcome_dashboard, only: [:index]
 
         devise_for :users,
@@ -18,6 +17,8 @@ Rails.application.routes.draw do
               registrations: "api/v1/users/registrations"
            }
 
+        get '/api/v1/:username/band_dashboard', to: "/api/v1/bands/mybands_dashboard#index", as: :all_bands_dashboard
+        get '/api/v1/:username/venue_dashboard', to: "/api/v1/bands/myvenues_dashboard#index", as: :all_venues_dashboard
     end
   end
 end
