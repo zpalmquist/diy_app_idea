@@ -80,12 +80,16 @@ RSpec.configure do |config|
   end
 end
 
-
-
-
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     with.test_framework :rspec
     with.library :rails
   end
+end
+
+def login_as(user, options = {})
+  password = options[:password]
+  email    = options[:email]
+
+  post '/api/v1/users/sign_in', params:  { password: password , email: email } 
 end
