@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   root to: "api/v1/welcome_dashboard#index", defaults: { format: :json }
   get '/api/v1/:username/dashboard', to: "api/v1/users/dashboard#index", as: :user_root
+  get '/api/v1/:username/bands_dashboard', to: "/api/v1/bands/my_bands_dashboard#index", as: :all_bands_dashboard
+  get '/api/v1/:username/venues_dashboard', to: "/api/v1/bands/my_venues_dashboard#index", as: :all_venues_dashboard
 
   scope module: :api, defaults: { format: :json }, path: 'api' do
     scope module: :v1, path: 'v1' do
@@ -16,9 +18,6 @@ Rails.application.routes.draw do
               unlocks: "api/v1/users/unlocks",
               registrations: "api/v1/users/registrations"
            }
-
-        get '/api/v1/:username/band_dashboard', to: "/api/v1/bands/mybands_dashboard#index", as: :all_bands_dashboard
-        get '/api/v1/:username/venue_dashboard', to: "/api/v1/bands/myvenues_dashboard#index", as: :all_venues_dashboard
     end
   end
 end

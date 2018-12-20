@@ -3,8 +3,8 @@ class Api::V1::Users::DashboardController < ApplicationController
 
   def index
     render json: {
-      my_bands_dashboard_link: band_dashboard_path(current_user),
-      my_venues_dashboard_link: venue_dashboard_path(current_user)
+      my_bands_dashboard_link: all_bands_dashboard_path(current_user.username),
+      my_venues_dashboard_link: all_venues_dashboard_path(current_user.username)
     }
   end
 end
