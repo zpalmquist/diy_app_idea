@@ -1,10 +1,11 @@
 class Api::V1::Bands::BandsController < ApplicationController
-  before_action :verify_jwt_token
+  before_action :verify_jwt_token  
 
   def show
   end
 
   def index
+    render json: { bands: Band.all }
   end
 
   def create
