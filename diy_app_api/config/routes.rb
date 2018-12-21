@@ -9,7 +9,9 @@ Rails.application.routes.draw do
 
   scope module: :api, defaults: { format: :json }, path: 'api' do
     scope module: :v1, path: 'v1' do
+
        resources :welcome_dashboard, only: [:index]
+       resources :bands
 
         devise_for :users,
           controllers: {
@@ -20,6 +22,7 @@ Rails.application.routes.draw do
               unlocks: "api/v1/users/unlocks",
               registrations: "api/v1/users/registrations"
            }
+
     end
   end
 end
