@@ -3,7 +3,7 @@ class Api::V1::Bands::MyBandsDashboardController < ApplicationController
 
   def index
       current_user.bands.each do |band|
-        render json: { user_band_links: band_path(band) }
+        render json: { user_band_links: band_path(band.name) }
     end
   end
 end

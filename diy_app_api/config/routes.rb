@@ -11,7 +11,10 @@ Rails.application.routes.draw do
     scope module: :v1, path: 'v1' do
 
        resources :welcome_dashboard, only: [:index]
-       resources :bands
+
+       namespace :bands do
+         get '/api/v1/bands/:name', to: "api/v1/bands/bands#show"
+       end
 
         devise_for :users,
           controllers: {
