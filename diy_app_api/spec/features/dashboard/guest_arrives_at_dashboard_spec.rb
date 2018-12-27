@@ -6,6 +6,6 @@ describe Api::V1::WelcomeDashboardController, type: :request do
 
     content = JSON.parse(response.body)
 
-    expect content["message"].is_a?(String)    
+    expect content["message"].is_a?(String)
   end
 end
