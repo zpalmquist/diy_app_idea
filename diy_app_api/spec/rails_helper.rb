@@ -90,6 +90,10 @@ end
 def login_as(user, options = {})
   password = options[:password]
   email    = options[:email]
+  token = AuthToken.issue_token({ user_id: user.id })
 
-  post '/api/v1/users/sign_in', params:  { password: password , email: email } 
+  post '/api/v1/users/sign_in', params:  { password: password , email: email }
+  response.set_header('jwt-token', token)
+
+  require "pry"; binding.pry
 end
