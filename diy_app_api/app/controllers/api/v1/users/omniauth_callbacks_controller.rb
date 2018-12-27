@@ -1,4 +1,4 @@
-class Api::Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+class Api::V1::Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # You should configure your model like this:
   # devise :omniauthable, omniauth_providers: [:twitter]
 
@@ -11,7 +11,6 @@ class Api::Users::OmniauthCallbacksController < Devise::OmniauthCallbacksControl
 
   # Disable CSRF protection
   skip_before_action :verify_authenticity_token
-
 
   def all
     user = User.sign_in_from_omniauth(request.env["omniauth.auth"])
