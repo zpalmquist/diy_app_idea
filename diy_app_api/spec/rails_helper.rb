@@ -94,6 +94,4 @@ def login_as(user, options = {})
 
   post '/api/v1/users/sign_in', params:  { password: password , email: email }
   response.set_header('jwt-token', token)
-
-  require "pry"; binding.pry
 end
