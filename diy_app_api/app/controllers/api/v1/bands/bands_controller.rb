@@ -1,10 +1,11 @@
 class Api::V1::Bands::BandsController < ApplicationController
-  before_action :verify_jwt_token  
+  before_action :verify_jwt_token
 
   def show
   end
 
   def index
+    # should only be viewable as app admin
     render json: { bands: Band.all }
   end
 
@@ -12,7 +13,7 @@ class Api::V1::Bands::BandsController < ApplicationController
     band = Band.new(band_params)
     band.save
     if band.save!
-      redirect_to band_dashboard_path(band)
+      render :show
     else
       render json: { message: "Please try again" }
     end
