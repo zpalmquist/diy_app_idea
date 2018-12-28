@@ -5,8 +5,10 @@ Rails.application.routes.draw do
   get '/api/v1/:username/dashboard', to: "api/v1/users/dashboard#index", as: :user_root
 
   get '/api/v1/:username/bands_dashboard', to: "api/v1/bands/my_bands_dashboard#index", as: :all_bands_dashboard
+  get '/api/v1/bands/:id', to: "api/v1/bands/bands#show"
+
   get '/api/v1/:username/venues_dashboard', to: "api/v1/bands/my_venues_dashboard#index", as: :all_venues_dashboard
-  get '/api/v1/bands/:name', to: "api/v1/bands/bands#show"
+  get '/api/v1/venues/:id', to: "api/v1/venues/venues#show"
 
   scope module: :api, defaults: { format: :json }, path: 'api' do
     scope module: :v1, path: 'v1' do
