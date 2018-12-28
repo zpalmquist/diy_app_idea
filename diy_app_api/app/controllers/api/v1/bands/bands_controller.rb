@@ -2,6 +2,8 @@ class Api::V1::Bands::BandsController < ApplicationController
   before_action :verify_jwt_token
 
   def show
+    band = Band.find_by(params[:id])
+    render json: { band_info: band }
   end
 
   def index
