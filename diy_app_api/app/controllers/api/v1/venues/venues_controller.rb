@@ -3,7 +3,8 @@ class Api::V1::Venues::VenuesController < ApplicationController
 
   def show
     venue = Venue.find_by(id: params[:id])
-    render json: { venue_info: venue }
+    require "pry"; binding.pry
+    render json: { venue_name: venue.name, users: (venue.users.each { |u| u.username }) }
   end
 
   def index

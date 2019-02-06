@@ -7,6 +7,7 @@ describe Api::V1::Venues::VenuesController, type: :request do
 
     it "I can see my own venues page" do
       user.venues << venue
+      require "pry"; binding.pry
       token = login_as(user,
         params: {
           email: "#{user.email}",
@@ -17,7 +18,8 @@ describe Api::V1::Venues::VenuesController, type: :request do
       get "/api/v1/venues/#{venue.id}"
 
       content = JSON.parse(response.body)
-      
+      require "pry"; binding.pry
+      expect(content).to eq ""
     end
   end
 end
