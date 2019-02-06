@@ -93,5 +93,6 @@ def login_as(user, options = {})
   token = AuthToken.issue_token({ user_id: user.id })
 
   post '/api/v1/users/sign_in', params:  { password: password , email: email }
-  response.set_header('jwt-token', token)
+
+  return token
 end

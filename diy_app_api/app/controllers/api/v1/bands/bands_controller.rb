@@ -1,5 +1,5 @@
 class Api::V1::Bands::BandsController < ApplicationController
-  before_action :verify_jwt_token
+  # before_action :verify_jwt_token
 
   def show
     band = Band.find_by(params[:id])
@@ -32,6 +32,7 @@ class Api::V1::Bands::BandsController < ApplicationController
   end
 
   def destroy
+    #only for admin || owner(s) of band
   end
 
   private

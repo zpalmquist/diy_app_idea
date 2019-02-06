@@ -1,8 +1,8 @@
 class Api::V1::Venues::VenuesController < ApplicationController
-  before_action :verify_jwt_token
+  # before_action :verify_jwt_token
 
   def show
-    venue = Venue.find_by(params[:id])
+    venue = Venue.find_by(id: params[:id])
     render json: { venue_info: venue }
   end
 

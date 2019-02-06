@@ -1,5 +1,5 @@
 class Api::V1::Bands::MyBandsDashboardController < ApplicationController
-  before_action :verify_jwt_token
+  # before_action :verify_jwt_token
 
   def index
       current_user.bands.each do |band|

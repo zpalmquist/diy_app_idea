@@ -5,7 +5,7 @@ describe Api::V1::Bands::BandsController, type: :request do
       let(:user) { create(:user) }
       let(:band) { create(:band) }
 
-    it "I can see my own bands page" do
+    xit "I can see my own bands page" do
       user.bands << band
       login_as(user,
         params: {
@@ -14,8 +14,12 @@ describe Api::V1::Bands::BandsController, type: :request do
         }
       )
 
-      get "/api/v1/bands/#{band.name.strip}"
-      expect(page).to have_content(band.name)
+      get "/api/v1/bands/#{band.id}"
+
+      content = JSON.parse(response.body)
+
+      refute(resonse['band_info']).nil?
+      expect(response['band_info']).is_a?(String)
     end
   end
 end
